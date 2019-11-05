@@ -1,0 +1,111 @@
+hadoop@d50103-ThinkCentre-M720t:~$ jps
+2539 Jps
+hadoop@d50103-ThinkCentre-M720t:~$ start-all.sh
+hadoop@d50103-ThinkCentre-M720t:~$ jps
+2960 DataNode
+3395 ResourceManager
+2790 NameNode
+3225 SecondaryNameNode
+3566 NodeManager
+4079 Jps
+hadoop@d50103-ThinkCentre-M720t:~$ hive
+ls: cannot access '/home/hadoop/spark/lib/spark-assembly-*.jar': No such file or directory
+
+Logging initialized using configuration in jar:file:/home/hadoop/hive/lib/hive-common-1.2.2.jar!/hive-log4j.properties
+hive> create database sak;
+OK
+Time taken: 1.049 seconds
+hive> show databases;
+OK
+default
+sak
+test1
+test2
+Time taken: 0.279 seconds, Fetched: 4 row(s)
+hive> create table employee(eid int,name string,salary int,destination string)
+    > comment'Employee Details'
+    > row format delimited
+    > fields terminated by ','
+    > lines terminated by '\n'
+    > STORED AS TEXTFILE;
+OK
+Time taken: 0.598 seconds
+hive> LOAD DATA LOCAL INPATH'/home/hadoop/Desktop/text.txt'OVERWRITE INTO TABLE employee;
+Loading data to table default.employee
+Table default.employee stats: [numFiles=1, numRows=0, totalSize=161, rawDataSize=0]
+OK
+Time taken: 1.052 seconds
+hive> select * from employee;
+OK
+1201	Gopal	45000	Technical manager
+1202	Manisha	45000	Proof reader
+1203	Masthanvali	40000	Technical writer
+1204	Krian	40000	Hr Admin
+1205	Kranthi	30000	Op Admin
+Time taken: 0.41 seconds, Fetched: 5 row(s)
+hive> SELECT * FROM employee WHERE salary>30000;
+OK
+1201	Gopal	45000	Technical manager
+1202	Manisha	45000	Proof reader
+1203	Masthanvali	40000	Technical writer
+1204	Krian	40000	Hr Admin
+Time taken: 0.286 seconds, Fetched: 4 row(s)
+hive> SELECT eid,name,salary,destination FROM employee ORDER BY destination;
+Query ID = hadoop_20190925104709_e1660373-263d-4c3b-b5a1-f755ecaa43fa
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks determined at compile time: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1569387459080_0001, Tracking URL = http://d50103-ThinkCentre-M720t:8088/proxy/application_1569387459080_0001/
+Kill Command = /home/hadoop/hadoop2/bin/hadoop job  -kill job_1569387459080_0001
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2019-09-25 10:47:17,268 Stage-1 map = 0%,  reduce = 0%
+2019-09-25 10:47:20,461 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 0.79 sec
+2019-09-25 10:47:24,557 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 2.04 sec
+MapReduce Total cumulative CPU time: 2 seconds 40 msec
+Ended Job = job_1569387459080_0001
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 2.04 sec   HDFS Read: 6709 HDFS Write: 161 SUCCESS
+Total MapReduce CPU Time Spent: 2 seconds 40 msec
+OK
+1204	Krian	40000	Hr Admin
+1205	Kranthi	30000	Op Admin
+1202	Manisha	45000	Proof reader
+1201	Gopal	45000	Technical manager
+1203	Masthanvali	40000	Technical writer
+Time taken: 16.838 seconds, Fetched: 5 row(s)
+hive> SELECT destination,count(*) FROM employee GROUP BY destination;
+Query ID = hadoop_20190925104819_bf90a36b-040e-4941-b2b0-7f898115398e
+Total jobs = 1
+Launching Job 1 out of 1
+Number of reduce tasks not specified. Estimated from input data size: 1
+In order to change the average load for a reducer (in bytes):
+  set hive.exec.reducers.bytes.per.reducer=<number>
+In order to limit the maximum number of reducers:
+  set hive.exec.reducers.max=<number>
+In order to set a constant number of reducers:
+  set mapreduce.job.reduces=<number>
+Starting Job = job_1569387459080_0002, Tracking URL = http://d50103-ThinkCentre-M720t:8088/proxy/application_1569387459080_0002/
+Kill Command = /home/hadoop/hadoop2/bin/hadoop job  -kill job_1569387459080_0002
+Hadoop job information for Stage-1: number of mappers: 1; number of reducers: 1
+2019-09-25 10:48:24,603 Stage-1 map = 0%,  reduce = 0%
+2019-09-25 10:48:28,697 Stage-1 map = 100%,  reduce = 0%, Cumulative CPU 0.89 sec
+2019-09-25 10:48:32,766 Stage-1 map = 100%,  reduce = 100%, Cumulative CPU 2.09 sec
+MapReduce Total cumulative CPU time: 2 seconds 90 msec
+Ended Job = job_1569387459080_0002
+MapReduce Jobs Launched: 
+Stage-Stage-1: Map: 1  Reduce: 1   Cumulative CPU: 2.09 sec   HDFS Read: 7548 HDFS Write: 76 SUCCESS
+Total MapReduce CPU Time Spent: 2 seconds 90 msec
+OK
+Hr Admin	1
+Op Admin	1
+Proof reader	1
+Technical manager	1
+Technical writer	1
+Time taken: 14.426 seconds, Fetched: 5 row(s)
+
