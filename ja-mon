@@ -1,0 +1,53 @@
+hadoop@d50101-ThinkCentre-M720t:~/hadoop2/bin$ mongo
+MongoDB shell version v3.6.3
+connecting to: mongodb://127.0.0.1:27017
+MongoDB server version: 3.6.3
+Server has startup warnings:
+2019-10-24T15:01:33.102+0530 I STORAGE  [initandlisten]
+2019-10-24T15:01:33.102+0530 I STORAGE  [initandlisten] ** WARNING: Using the XFS filesystem is strongly recommended with the WiredTiger storage engine
+2019-10-24T15:01:33.102+0530 I STORAGE  [initandlisten] **      	See http://dochub.mongodb.org/core/prodnotes-filesystem
+2019-10-24T15:01:34.253+0530 I CONTROL  [initandlisten]
+2019-10-24T15:01:34.253+0530 I CONTROL  [initandlisten] ** WARNING: Access control is not enabled for the database.
+2019-10-24T15:01:34.253+0530 I CONTROL  [initandlisten] **      	Read and write access to data and configuration is unrestricted.
+2019-10-24T15:01:34.253+0530 I CONTROL  [initandlisten]
+
+> show dbs
+admin  0.000GB
+local  0.000GB
+> use mongodemo
+
+
+> db.inventory.insertMany([
+...	{ item: "journal", qty: 25, size: { h: 14, w: 21, uom: "cm" }, status: "A" },
+...	{ item: "notebook", qty: 50, size: { h: 8.5, w: 11, uom: "in" }, status: "A" },
+...	{ item: "paper", qty: 100, size: { h: 8.5, w: 11, uom: "in" }, status: "D" },
+...	{ item: "planner", qty: 75, size: { h: 22.85, w: 30, uom: "cm" }, status: "D" },
+...	{ item: "postcard", qty: 45, size: { h: 10, w: 15.25, uom: "cm" }, status: "A" }
+... ]);
+{
+    "acknowledged" : true,
+    "insertedIds" : [
+   	 ObjectId("5db1724f4f048124990ab07f"),
+   	 ObjectId("5db1724f4f048124990ab080"),
+   	 ObjectId("5db1724f4f048124990ab081"),
+   	 ObjectId("5db1724f4f048124990ab082"),
+   	 ObjectId("5db1724f4f048124990ab083")
+    ]
+}
+> db.inventory.find( { status: "D" } )
+{ "_id" : ObjectId("5db1724f4f048124990ab081"), "item" : "paper", "qty" : 100, "size" : { "h" : 8.5, "w" : 11, "uom" : "in" }, "status" : "D" }
+{ "_id" : ObjectId("5db1724f4f048124990ab082"), "item" : "planner", "qty" : 75, "size" : { "h" : 22.85, "w" : 30, "uom" : "cm" }, "status" : "D" }
+>
+
+  557  sudo apt-get install mongodb
+  
+  560  sudo systemctl start mongodb
+  561  netstat -plntu
+  562  sudo systemctl status mongodb
+  563  sudo systemctl enable mongodb
+  564  sudo systemctl stop mongodb
+  565  sudo systemctl restart mongodb
+  566  mongo
+
+
+
