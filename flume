@@ -1,0 +1,23 @@
+hadoop@d50101-ThinkCentre-M720t:~/flume$  bin/flume-ng agent -c ~/flume/ -f ~/flume/net.conf --name NetcatAgent -Dflume.root.logger=INFO,console
+
+
+New terminal: telnet locatelnet localhost 56565
+
+Trying 127.0.0.1...
+
+Connected to localhost.
+
+Escape character is '^]'.
+
+hi yoshita!
+
+OK
+
+^[
+
+In original terminal:(reflects)
+
+19/10/24 16:29:41 INFO source.NetcatSource: Created serverSocket:sun.nio.ch.ServerSocketChannelImpl[/127.0.0.1:56565]
+
+19/10/24 16:31:40 INFO sink.LoggerSink: Event: { headers:{} body: 68 69 20 79 6F 73 68 69 74 61 21 0D         	hi yoshita!. }
+
